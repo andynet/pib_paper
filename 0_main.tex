@@ -1,0 +1,156 @@
+\documentclass[12pt, twoside]{book}
+
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[hidelinks,breaklinks]{hyperref}
+
+\linespread{1.25} % value 1.25 should correspond to 1.5 line spread
+
+\def \year {2019}
+\def \title {Classification of cancer samples using Neural Networks}
+\def \type {Project in Bioinformatics}
+\def \author {Andrej Balaz}
+\def \supervisor {Søren Besenbacher}
+\def \consultant {Lasse Marrety Sørensen}  
+\def \place{Aarhus, \year}
+\def \programme {Bioinformatics}
+\def \affiliation {Molekylær Medicinsk afdeling (MOMA)}
+
+\begin{document}
+    \frontmatter
+    % start of page 1
+
+    \thispagestyle{empty}
+
+    \begin{center}
+    \sc\large
+    Aarhus university \\
+    Faculty of Science and Technology
+
+    \vfill
+
+    {\LARGE\title}\\
+    \type
+    \end{center}
+
+\vfill
+
+{\sc\large 
+\noindent \year\\
+\author
+}
+
+\cleardoublepage
+% end of page 1
+
+% start of page 2
+\thispagestyle{empty}
+\noindent
+
+\begin{center}
+\sc\large
+Aarhus university\\
+Faculty of science and technology
+
+\vfill
+
+{\LARGE\title}\\
+\type
+\end{center}
+
+\vfill
+
+\noindent
+\begin{tabular}{ll}
+Study programme: & \programme \\
+Place: & \place \\
+Affiliation: & \affiliation \\
+Supervisor: & \supervisor \\
+Consultant: & \consultant \\
+\end{tabular}
+
+\vfill
+
+
+\noindent \place\\
+\author
+
+\cleardoublepage
+% end of page 2
+
+% start of assignment
+\newpage 
+\thispagestyle{empty}
+\hspace{-2cm}\includegraphics[width=1.1\textwidth]{images/contract.pdf}
+% end of assignment
+
+% \frontmatter
+\setcounter{page}{3}
+% start of acknowledgement
+\newpage 
+~
+
+\vfill
+{\bf Acknowledgement:} 
+% end of acknowledgement
+
+% start of abstract
+\newpage 
+\section*{Abstract}
+
+\paragraph*{Keywords:} 
+% end of abstract
+
+% start of content
+\newpage 
+\tableofcontents
+% end of content
+
+% start of list of figures, list of tables
+\newpage 
+\listoffigures
+\listoftables
+% end of lists
+
+\mainmatter
+
+\input 1_introduction.tex 
+\input 2_theoretical_background.tex
+\input 3_materials_and_methods.tex
+\input 4_results.tex
+\input 5_discussion.tex
+\input 6_conclusion.tex
+
+% \input kapitola.tex
+% \input latex.tex
+% \input lorem.tex
+
+% start of bibliography
+\newpage	
+\backmatter
+\thispagestyle{empty}
+\nocite{*}
+\clearpage
+
+\bibliographystyle{plain}
+\bibliography{literatura} 
+% end of bibliography
+
+% start of attachments
+%\addcontentsline{toc}{chapter}{Appendix A}
+%\input AppendixA.tex
+%
+%\addcontentsline{toc}{chapter}{Appendix B}
+%\input AppendixB.tex
+% end of attachments
+
+\end{document}
+
+
+
+
+
+
