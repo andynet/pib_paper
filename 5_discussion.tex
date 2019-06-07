@@ -1,2 +1,20 @@
 \chapter{Discussion}
-In this chapter...
+In this chapter we will discuss what the results suggest about the problems which we were solving.
+We will also discuss some possible improvements in the future.
+Lastly, we will evaluate the advantages and drawbacks of the methods used in this project.
+
+\section{Predicting tissue type}
+As we could see tissue type prediction from the expression data seems to be relatively easy problem.
+We noticed that the best pefforming model was the model without any hidden layer.
+Since this model can be reduced to simple linear model, this suggest that the relationship between the gene expression and tissue type is also strongly linear.
+This leads us to the conclussion that the neural networks are not ideal for this type of problem, because we are not able to fully use their power.
+Since the linear relationship, it is probable that the simpler, more interpretable model could have been built for this problem.
+
+\section{Predicting stage of the cancer}
+This problem seemed to be much harder than the tissue type prediction.
+The results were reflecting it.
+Although we were able to improve our predictions in comparisson with the null model, the accuracy was much below the usability.
+The possible improvements over our work could include increasing the sample size, treating stage as ordered possibly continuous variable and including the tissue type as a predictor. 
+
+\section{Pathways layer}
+Pathways layer did not show to be improvement over simple linear layer.
