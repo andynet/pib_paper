@@ -2,34 +2,42 @@
 \addcontentsline{toc}{chapter}{Introduction}
 \markboth{Introduction}{Introduction}
 
-Cancer is a collection of related diseases.
-In all types of cancer the cells start to reproduce uncontrollably and spread into surrounding tissue.
-These uncontrolled cells may form growths called tumors, which are masses of tissue.
+Cancer is a second leading cause of death globally, with an estimated 1 out of 6 deaths to be caused by cancer. \cite{cancer}
+It is a large collection of diseases that can affect any tissue in the body.
+Cancer cells are abnormal cells that grow beyond their usual boundaries. 
+All types of these cells start to reproduce uncontrollably.
+These uncontrolled cells may form masses of tissue, which are called tumours. \cite{cancer2}
+In later stages, these tumours can spread into surrounding tissue and form metastases.
+Metastases are a significant cause of death from cancer.
 
-% https://www.cancer.gov/about-cancer/understanding/what-is-cancer
+A correct cancer diagnosis is essential for efficient treatment of cancer because every type of cancer requires a specific treatment regimen consisting of one or more procedures such as radiotherapy, chemotherapy and surgery.
+In this work, we will build models for detecting some of the characteristic features of the disease.
+Specially, we will design artificial neural networks for classification of tumorous tissue using gene expression data from RNA sequencing.
 
-The goal of this work will be to build a neural network for classifying of tumorous tissue.
-Neural networks are highly versatile models able to capture non-linear relationships between many predictors.
-Since the rediscovery of neural networks and the means of their training, these models became widely used in many applications and they proved themselves to be of high accuracy even for complex problems.
+Artificial neural networks are systems inspired by the biological neural networks in animals brains.
+They are highly versatile models able to capture non-linear relationships between many predictors.
+The concept of neural network dates back at least to the 1960s. 
+However, it was difficult to use them in practice. \cite{schmidhuber2015deep}
+The difficulty was mainly caused by an insufficient amount of labelled data and by the low computing power of the technology.
+Because of the growth of computing power and the discovery of backpropagation, a technique to train these models efficiently, neural networks grew on the popularity amongst researchers.
+Nowadays, these models became widely used in many applications, and they proved themselves to be of high accuracy even for complex problems.
 
-In this project we would like to use neural networks for two main tasks.
-First, predicting the primary site of a tumorous tissue.
-The solution to this problem might be especially useful in metastatic cancer, where the clinicians can find a tumorous cells all around the body of a patient.
-Since there are multiple therapies to help with different types of cancer, it is of high importance to know the primary site of the tissue, to establish the most efficient treatment.
+The goal of this project will be to use neural networks for classification.
+First, we will build a model to predict the primary site of tumorous tissue.
+The solution to this problem might be especially useful in metastatic cancer, where the clinicians can find tumorous cells all around the body of a patient.
+It is of high importance to know the primary site of the tissue, to establish the most efficient treatment.
 
-The second objective would be to identify the stage of the cancer.
-This could tell us something more about the severenity of the illness and could potentially also help to choose better suited cure.
+The second objective will be to identify the stage of cancer.
+This result could tell us more about the severity of the illness and could also potentially help to choose better-suited cure.
 
-We divided our work to three main parts.
-Firstly, chapter Materials and Methods where we will describe data available for the analysis together with the source databases. 
-In this chapter we will also describe each step of our pipeline and reasons for doing that step.
-In the next chapter, we will present the results and provide visualisations of the most important findings.
-Furthermore, we will discuss advantages and drawbacks of selected methods and also try to formulate the improvements for the future work.
+We divided our work into three main parts.
 
+Firstly, chapter Materials and Methods, where we will describe data available for the analysis, their corresponding formats and the source databases. 
+In this chapter, we will also provide a detailed description of each step of our pipeline, and we will show what effects these steps had for our data.
 
-How to cite something\cite{smernica}.
+In the next chapter, we will present the models build and we will show the results these models produced.
+Here, we will also provide visualisations of our most important findings.
 
-\begin{quote}
-How to quote something.
-\end{quote}
-
+In the Discussion chapter, we will evaluate our methods.
+We will interpret our findings, and we will discuss what could cause them.
+We will also look at the advantages and disadvantages of selected methods, and we will propose possible improvements over them.
