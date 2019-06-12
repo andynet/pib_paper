@@ -156,16 +156,26 @@ In our project, we used the GTEx dataset to find the transformation needed to cr
 This transformed dataset was then used further in the pipeline.
 
 \newpage
-%
-\section{Splitting to training, validation and testing datasets}
-Because of the computational intensity of training of the neural networks we decided to validate using validation set. 
-This approach can have multiple drawbacks.
-% list drawbacks
-To mitigate these drawbacks, we decided to perform splitting as follows.
-First we removed all observations with missing value of response variable.
-These would not help us to train the model.
+\section{Dataset splitting}
+In this step, we split our dataset to training, validation and testing datasets.
+We decided to determine the hyperparameters of our models using the validation set approach.
+This approach picks a proportion of observations from our training data, which are then not used in the training of the model.
+Multiple models with different parameters are then built, and the testing accuracy of the models is then approximated using the validation set.
+The validation set approach has many drawbacks in comparison with cross-validation methods.
+\begin{enumerate}
+    \item The estimate of test error is highly dependent on the chosen observations used for validation, and it can vary a lot.
+    \item Since we are using just a subset of observations for training, this method tends to overestimate the test error.
+\end{enumerate}
+Despite these drawbacks, we preferred this approach mainly because of the computational intensity of the training of the neural networks, which could render other approaches computationally infeasible. 
+
+There was another challenging problem of the validation set approach when creating the sets by random selection.
+This problem was that there was a considerable probability of not sampling some classes for training dataset at all.
+That could create a problem of the heavily unbalanced training sample.
+We tried to minimize this effect by performing the splitting as follows.
+First, we removed all observations with a missing value of the response variable.
 Then we grouped remaining observations by tissue type and by cancer stage.
-From each group we selected 60\% as training set, 20\% as validation set and 20\% as testing set.
+Finally, we selected randomly 20\% observations as testing set, 20\% observation as validation set and the remaining 60\% observations as the training set.
+The effects of this procedure is visualized in the Figures \ref{fig:split_tissue}, \ref{fig:split_stages} and \ref{fig:split_all}. 
 
 \begin{figure}
     \centering
@@ -188,62 +198,67 @@ From each group we selected 60\% as training set, 20\% as validation set and 20\
     \label{fig:split_all}
 \end{figure}
 
+\newpage
 \section{Neural networks}
-The main point of this work was to build a neural network classifier for cancer expression data.
-Here we will present architecture of neural networks used.
+The main goal of this work was to build neural networks for classification based on the cancer expression data.
+In this section, we will present the architecture of the neural networks used.
 
 \subsection{PyTorch library}
-For building neural networks in this project we used python library PyTorch.
-PyTorch library is primarily developed by Facebook's artificial inteligence research group. \cite{pytorch}
-In comparison with other AI frameworks, PyTorch belongs to one of the most popular with wide support for scientific community.
-It is a lower-level API directly focused on work with array expression which directly encourage the understanding of deep learning concepts.
-Its lower-level approach also ensures, that the programmer has more control over the architecture.
-Despite its lower-level approach it still provides automatic differentiation and backpropagation.
+For building neural networks, we used the python library PyTorch.
+The PyTorch library is primarily developed by Facebook's artificial intelligence research group. \cite{pytorch}
+In comparison with other AI frameworks, PyTorch belongs to one of the most popular with wide support for the scientific community.
+It is a lower-level API focused on work with array expression which directly encourages the understanding of deep learning concepts.
+Its lower-level approach ensures that the programmer has more control over the architecture.
+Despite its lower-level approach, it provides many methods usually used in artificial intelligence designs like automatic differentiation and backpropagation.
 
 \subsection{Dataset object}
-PyTorch provides an option to define custom dataset.
-This is preferable way to use data when training the neural network, because it makes the code more clean and intuitive.
-It also enables to train the model on batches which can be even shuffled.
-This can make the process of training more stable and less likely to jump over some good values of parameters.
-In our project we made use of these benefits of using abstract Dataset class and created custom class MyDataset extending the Dataset class.
+PyTorch provides an option to define custom datasets.
+This option is an excellent way to provide the data for training of the neural network because it makes the code cleaner and more intuitive.
+It also enables to train the model on shuffled batches.
+The shuffled batches can make the process of training more stable and less likely to jump over optimal values of parameters.
+In our project, we made use of these benefits by using the abstract \verb'Dataset' class and created custom class \verb'MyDataset' extending the \verb'Dataset' class.
 
 \subsection{Feed forward neural network}
-Next step was to define neural network.
-We made our neural network class parametrized by the parameter architecture.
-This parameter was in the format INT-...-INT, where first integer represented the size of input layer of desired neural network, last integer represented the size of output layer and all integers in the middle represented the sizes of hidden layers.
-This was done using PyTorch object ModuleList to which we then added Linear layers with required parameters.
-For each hidden layer we used ReLU as nonlinearity function.
+We defined our neural network class in such a way that the number of layers and units inside those layers could be passed to the model as a parameter.
+This parameter was in the format of the list of integers separated by \verb'-' separator.
+In this format, the first integer represented the size of the input layer, the last integers represented the size of the output layer, and every integer in between represented the sizes of the hidden layers.
+This flexible architecture allowed us to train models with many different parameters using one piece of software.
+We created this architecture using PyTorch object \verb'ModuleList' to which we added Linear layers with required parameters.
+For each hidden layer, we used ReLU nonlinearity function, and for the output layer, we used the softmax function.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{images/ff_nn.png}
-    \caption{Typical neural network architecture.}
+    \includegraphics[width=0.7\linewidth]{images/ff_nn.png}
+    \caption{Neural network architecture which could be generated using the \texttt{3-4-2} expression as a parameter}
     \label{fig:ff_nn}
 \end{figure}
 
 \subsection{Pathways neural network}
-In this architecture we wanted to incorporate additional information about the genes into the neural network.
-For this we used KEGG data mentioned in Subsection \ref{subsec:kegg}.
-First layer in the pathways neural network was our custom layer Pathways.
-This layer represented membership of a gene to a particular biochemical pathway.
-This was done using the binary matrix where rows represented genes and columns represented pathways.
-Our custom layer then performed entrywise matrix multiplication between binary matrix and weights.
-This effectively set majority of the connections to zero and the remaining connections were the one representing membership of the gene to a pathway.
-This new matrix was then used for transition between input layer to the first hidden layer.
-From the first hidden layer to the output layer we used Linear layers similarly to the Feed forward neural network.
+In the pathways neural network architecture, we wanted to incorporate additional information about the genes into the neural network.
+For this, we used KEGG data mentioned in Subsection \ref{subsec:kegg}.
+The architecture consisted of our custom layer named Pathways followed by Linear layers similar to the feedforward neural networks.
+The Pathways layer represented the membership of a gene to a particular biochemical pathway assigned to the gene in the KEGG database.
+For this purpose, we used the binary matrix where rows represented genes and columns designated pathways.
+The Pathways layer then performed entrywise matrix multiplication between binary matrix and weights.
+This multiplication effectively sets the majority of the connections to zero with the remaining connections representing the membership of the gene to a pathway.
+The product was then used for transition between the input layer to the first hidden layer.
 
 \subsection{Training and regularization of the neural networks}
-During the training we loaded training observations to out custom dataset class.
-This class was then passed to the built in DataLoader class which allowed us to train in shuffled batches.
-We also programmed this training procedure to be able to use graphical processing unit (GPU) for better performance.
-As an optimized we used Adam - adaptive moment estimation \cite{kingma2014adam} optimizer with BCEWithLogitsLoss loss function. 
-After each run through the whole training dataset we recorded the training loss, training accuracy, validation loss and validation accuracy.
+During the training, we loaded training observations to our custom dataset class.
+This class was then passed to the built-in \verb'DataLoader' class, which allowed us to train in shuffled batches.
+We also programmed the training procedure to be able to use a graphical processing unit (GPU) for higher speed.
+As an optimizer, we used \verb'Adam' - adaptive moment estimation optimizer \cite{kingma2014adam} with \verb'BCEWithLogitsLoss' loss function. 
+After each run through the whole training dataset (epoch), we recorded the training loss, training accuracy, validation loss and validation accuracy.
 We also stored a pickled python object of the model after each epoch.
-The idea here was to perform a form of regularization, where we would choose the model with lowest validation error.
-Together with this regularization, we also used dropout regularization.
-Furthermore, we also tried L2 regularization. 
-To estimate the hyperparameter which should be used by L2 regularization, we ran through multiple options.
-The validation error using the L2 regularization can be found in the Figure \ref{fig:L2_reg}.
+The idea here was to perform a form of regularization called early stopping, where we would choose the model with the lowest validation error.
+Together with this regularization, we also used dropout regularization \cite{srivastava2014dropout}.
+The dropout regularization temporarily removes some of the neurons and all of their incoming and outgoing connections during the training of the model. 
+This procedure is a good approximation for averaging over exponentially many models.
+
+Furthermore, we tried L2 regularization, which reduces the magnitude of the trained parameters. 
+This regularization needs a hyperparameter for the strength of reduction. 
+To estimate this hyperparameter, we ran through multiple options.
+The validation error using different levels of the L2 hyperparameter were visualized in Figure \ref{fig:L2_reg}.
 
 \begin{figure}
     \centering
@@ -251,5 +266,3 @@ The validation error using the L2 regularization can be found in the Figure \ref
     \caption{}
     \label{fig:L2_reg}
 \end{figure}
-
-Unfortunatelly, L2 regularization did not improve our accuracy over the model with just dropout, therefore we decided not to use it.
