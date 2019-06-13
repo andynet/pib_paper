@@ -17,7 +17,7 @@ In Figure \ref{fig:dag}, we provide a simplified graph containing all the rules 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/dag.pdf}
-    \caption{Pipeline overview: Nodes represent the executed rules, arrows represent the flow of information. This example used fewer parameters in comparison with the real run.}
+    \caption[Pipeline overview]{Pipeline overview: Nodes represent the executed rules, arrows represent the flow of information. This example used fewer parameters in comparison with the real run.}
     \label{fig:dag}
 \end{figure}
 
@@ -59,7 +59,7 @@ Therefore, for each dataset, we created one file containing gene expression coun
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{images/SummarizedExperiment.png}
-    \caption{Structure of the RangedSummarizedExperiment object. The rows represent genes, and the columns represent samples. The expression data are stored in the assays part of the object. The structure ensures the correct selection of elements by bounding features to rows and samples to columns.}
+    \caption[Structure of \texttt{RangedSummarizedExperiment}]{Structure of the \texttt{RangedSummarizedExperiment} object. The rows represent genes, and the columns represent samples. The expression data are stored in the assays part of the object. The structure ensures the correct selection of elements by bounding features to rows and samples to columns.}
     \label{fig:sre}
 \end{figure}
 
@@ -89,14 +89,14 @@ The effect of this step was visualized in the Figures \ref{fig:expr_dist} and \r
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{images/expr_dist.png}
-    \caption{Expression distributions of the first 10 samples before the normalization}
+    \caption[Expression before normalization]{Expression distributions of the first 10 samples before the normalization}
     \label{fig:expr_dist}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{images/norm_expr_dist.png}
-    \caption{Expression distributions of the first 10 samples after the normalization}
+    \caption[Expression after normalization]{Expression distributions of the first 10 samples after the normalization}
     \label{fig:norm_expr_dist}
 \end{figure}
 
@@ -115,14 +115,14 @@ The effect of this step was visualized in the Figure \ref{fig:norm_expr_genes} a
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{images/norm_expr_genes.png}
-    \caption[]{Expression distribution of the first 10 genes before the scaling}
+    \caption[Expression before scaling]{Expression distribution of the first 10 genes before the scaling}
     \label{fig:norm_expr_genes}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{images/scaled_expr_genes.png}
-    \caption{Expression distibution of the first 10 gene after the scaling}
+    \caption[Expression after scaling]{Expression distibution of the first 10 gene after the scaling}
     \label{fig:scaled_expr_genes}
 \end{figure}
 
@@ -180,21 +180,21 @@ The effects of this procedure is visualized in the Figures \ref{fig:split_tissue
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/split_tissue.png}
-    \caption{Caption}
+    \caption[Splitting - tissue type]{Splitting of the main dataset to train, validation and test set with respect to tissue type}
     \label{fig:split_tissue}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/split_stages.png}   
-    \caption{Caption}
+    \caption[Splitting - stages]{Splitting of the main dataset to train, validation and test set with respect to stages}
     \label{fig:split_stages}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{images/split_all.png}
-    \caption{Caption}
+    \caption[Splitting - combined]{Splitting of the main dataset to train, validation and test set with respect to tissue type and stages}
     \label{fig:split_all}
 \end{figure}
 
@@ -229,7 +229,7 @@ For each hidden layer, we used ReLU nonlinearity function, and for the output la
 \begin{figure}
     \centering
     \includegraphics[width=0.7\linewidth]{images/ff_nn.png}
-    \caption{Neural network architecture which could be generated using the \texttt{3-4-2} expression as a parameter}
+    \caption[Neural network - example]{Neural network architecture which could be generated using the \texttt{3-4-2} expression as a parameter}
     \label{fig:ff_nn}
 \end{figure}
 
@@ -262,7 +262,7 @@ The validation error using different levels of the L2 hyperparameter were visual
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{images/val_acc_l2.png}
-    \caption{}
+    \includegraphics[width=0.7\linewidth]{images/val_acc_v2.png}
+    \caption[L2 choice]{Validation accuracy across the epochs with different choice of L2 hyperparameter.}
     \label{fig:L2_reg}
 \end{figure}

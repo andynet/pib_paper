@@ -1,28 +1,54 @@
 \chapter{Discussion}
-In this chapter we will discuss what the results suggest about the problems which we were solving.
-We will also discuss some possible improvements in the future.
-Lastly, we will evaluate the advantages and drawbacks of the methods used in this project.
+In this chapter, we discuss what the results suggest about the problems which we were solving.
+We also discuss some possible improvements in the future.
+Lastly, we evaluate the advantages and drawbacks of the methods used in this project.
 
-% normalization using TMM factor
+% why decrease of genes did not help
+% why adding hidden layer did not help
+% why pca did not help
+% why pathways did not help
 
-\section{Predicting tissue type}
-As we could see tissue type prediction from the expression data seems to be relatively easy problem.
-We noticed that the best pefforming model was the model without any hidden layer.
-Since this model can be reduced to simple linear model, this suggest that the relationship between the gene expression and tissue type is also strongly linear.
-This leads us to the conclussion that the neural networks are not ideal for this type of problem, because we are not able to fully use their power.
-Since the linear relationship, it is probable that the simpler, more interpretable model could have been built for this problem.
+% Unfortunatelly, L2 regularization did not improve our accuracy over the model with just dropout, therefore we decided not to use it.
 
-\section{Predicting stage of the cancer}
-This problem seemed to be much harder than the tissue type prediction.
-The results were reflecting it.
-Although we were able to improve our predictions in comparisson with the null model, the accuracy was much below the usability.
-The possible improvements over our work could include:
-\begin{enumerate}
-    \item increasing the sample size
-    \item treating stage as ordered variable
-    \item treating stage as continuous variable
-    \item including tissue type as a predictor
-\end{enumerate} 
+\section{Data}
+In this project, we were working with high dimensional data.
+Although the number of samples was relatively large, there was still a considerable probability that the space of predictors was insufficiently covered.
+This insufficient coverage can create a problem for neural network because it can extrapolate the learned function into regions without any training observation, which could lead to decreased accuracy.
+The solution to this problem can be to acquire more data, but this solution is costly.
+In the pipeline, we tried to tackle this problem by decreasing the number of genes used, but that approach failed.
+That might suggest that all genes are related to the disease, but this conclusion seems to be improbable to us.
+Another explanation might be that the normalization and the scaling step changed the values of an expression in such a way that all values became necessary for the prediction.
+Therefore, we think that changes in these steps might be beneficial for the outcome.
+% using TMM factor
+
+\section{Tissue type prediction}
+Tissue type prediction from the expression data seems to be a relatively easy problem for the neural network.
+We noticed that the best performing model was the model without any hidden layer.
+Since this model can be reduced to a simple linear transformation, this suggests that the relationship between the gene expression and tissue type is strongly linear.
+Consequently, it leads us to the conclusion that the neural networks are not an ideal method for this type of problem because we are not using their power to learn highly nonlinear relationships.
+In addition, neural networks belong to the group of models, which are hard to interpret.
+Therefore, we believe that simpler and more interpretable models could have been built for the problem of tissue type prediction.
+
+\section{Cancer stage prediction}
+Prediction of the cancer stage from the expression data seems to be a much harder problem than tissue type prediction.
+We can conclude that from the low accuracy of the trained models.
+Although the neural network was able to improve the accuracy of the predictions over the null model, which would assign stages to the samples randomly, the accuracy was much below the level needed for the usability of the model.
+This result confirms that there is a relationship between the cancer stage and the expression.
+According to us, the most probable explanation for the low accuracy is that the models were not able to capture the relation sufficiently enough.
+There are various possible improvements, which were not implemented in this project, but which we think have a good chance to increase the precision of the models.
+
+First, treating the stage of cancer as an ordered variable could provide additional information to the neural network.
+In these settings, the model would not treat all errors in prediction equally, so for example predicting stage 0 when the real stage is 4, would be considered as a more severe error as predicting stage 3 when the actual stage is 4.
+Our intuition about this option is that it could also stabilize the learning process, which seems to be quite unstable in current settings.
+
+Likewise, we could treat the stage as a continuous variable and train a neural network for regression instead of classification.
+This option would probably have the same benefits as the first option, and it would allow us to represent in between stages.
+
+Another option could be to include tissue type as a predictor and increasing the sample size.
+Especially adding observations with stage zero could be beneficial as the original TCGA dataset contains very few of those observations.
 
 \section{Pathways layer}
-Pathways layer did not show to be improvement over simple linear layer.
+The Pathways layer did not show to be an improvement over the linear layer.
+A possible explanation for this could be that most of the genes from TCGA dataset did not have an assignment to a group in the KEGG database, and therefore we did not include these genes in the model.
+It caused a significant drop in the amount of information supplied to the training algorithm even though we were also introducing a new type of information.
+A solution to this problem might be to use the KEGG information only for those genes which are in the KEGG database and treat all other genes as fully connected nodes.
